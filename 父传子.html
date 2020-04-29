@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <parents></parents>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+
+        var Childrens = {
+            template:`<div>
+                {{msg1}}
+
+                {{babamsg}}
+
+                </div>`,
+            data(){
+                return{
+                    msg1:"我是子组件"
+                }
+            },
+            computed: {
+                babamsg(){
+                    return this.$parent.msg2
+                }
+            },
+        }
+
+
+        var Parents = {
+            template:`<div>
+                {{msg}}
+
+                <childrens></childrens>
+
+                </div>`,
+            data(){
+                return{
+                    msg:"我是父亲组件",
+                    msg2:"爸爸给你的",
+                }
+            },
+            components:{
+                Childrens
+            }
+        }
+
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"我是祖宗"
+            },
+            components:{
+                Parents
+            }
+        })
+    </script>
+</body>
+</html>

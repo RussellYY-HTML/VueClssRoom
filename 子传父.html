@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <parents></parents>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        var childrens = {
+            template:`<div>
+                {{msg}} {{givit}} <button @click="setSomeMsg">给父组件传值</button>
+            </div>`,
+
+            data(){
+                return{
+                    msg:"我是子组件数据",
+                    setMsg:"这是儿子给爸爸的"
+                }
+            },
+            methods: {
+                setSomeMsg(){
+                    this.$emit("givedata",this.setMsg);
+                }
+            },
+            props:['givit']
+        }
+
+        var Parents = {
+            template:`<div>
+                {{msg}} {{gitSonMsg}}<hr>
+
+                <childrens :givit="setMsg" @givedata="gitMsg"></childrens>
+                
+                </div>`,
+            data() {
+                return {
+                    msg:"我是父组件数据",
+
+                    setMsg:"这是父亲给儿子的",
+
+                    gitSonMsg:"",
+                }
+            },
+            methods: {
+                gitMsg(data){
+                    this.gitSonMsg = data
+                }
+            },
+
+            components:{
+                childrens
+            }
+
+        }
+        new Vue({
+            el:"#app",
+            components:{
+                Parents
+            }
+        })
+    </script>
+</body>
+</html>
