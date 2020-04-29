@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app"></div>
+    <script src="vue.js"></script>
+    <script>
+        new Vue({
+            el:".app",
+            template:`
+            <div>
+                <div>hello fuckde</div>
+                <p>{{msg}}</p>
+                <h1 v-text="msg1"></h1>
+                <h1 v-html="msg2"></h1>
+                <h2 v-on:click='alerts'>{{allMsg}}</h2>
+                </div>
+            `,
+            data:{
+                msg:"肯德基反馈",
+                msg1:"我是text",
+                msg2:"<a href='baidu'>我是html</a>",
+            },
+            computed: {
+                allMsg:function(){
+                    return this.msg+' '+this.msg1
+                }
+            },
+            methods: {
+                alerts:function(){
+                    alert("shirt")
+                }
+            },
+        })
+    </script>
+</body>
+</html>

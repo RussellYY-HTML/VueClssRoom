@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app">
+        <footer-bar>
+            <div>111</div>
+        </footer-bar>
+        <header-bar></header-bar>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        var FooterBar = {
+            template:`<div>
+                我是头部组件
+                <slot></slot>
+               
+                </div>`,
+                data() {
+                    return {
+                        farMsg:"我是头部数据"
+                    }
+                }
+        }
+
+        var HeaderBar = {
+            template:`<div>
+                {{headMsg}}
+                <footer-bar></footer-bar>
+                </div>`,
+            data() {
+                return {
+                    headMsg:'我是尾部数据'
+                }
+            },
+            components:{
+                FooterBar
+            }
+        }
+
+
+        new Vue({
+            el:".app",
+            components:{
+                FooterBar,HeaderBar
+            }
+        })
+    </script>
+</body>
+</html>
