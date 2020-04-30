@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <headers></headers><hr>
+        <centers></centers><hr>
+        <footers></footers>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        Vue.prototype.$bus = new Vue();
+
+        const Headers = {
+            template: `<div>{{msg}} | {{msg2}}</div>`,
+            data() {
+                return {
+                    msg: "我是头部组件",
+                    msg2: "我是头部组件的counter"
+                }
+            },
+            created(){
+                this.$bus.$on("showtime",val=>{
+                    this.msg2 = val
+                })
+            }
+        }
+               
+        const Centers = {
+            template: `<div>
+                {{msg}} {{msg2}}
+                </div>`,
+            data() {
+                return {
+                    msg: "我是中间组件",
+                    msg2: "我是中间组件的counter"
+                }
+            },
+            mounted() {
+                this.$bus.$on("showtime",val=>{
+                    this.msg2 = val
+                })
+            }
+        }
+
+        const Footers = {
+            template: `<div>
+                {{msg}}
+                
+                </div>`,
+            data() {
+                return {
+                    msg: "我是谁",
+                    msg2: "我是谁改变了我"
+                }
+            },
+            created() {
+                this.$bus.$emit("showtime",this.msg2);
+            }
+        }
+
+        new Vue({
+            el: "#app",
+            components: {
+                Headers,
+                Centers,
+                Footers
+            }
+        })
+    </script>
+</body>
+
+</html>

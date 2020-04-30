@@ -7,56 +7,61 @@
 </head>
 <body>
     <div id="app">
-        <parents></parents>
+        <parentt></parentt>
     </div>
     <script src="vue.js"></script>
     <script>
-
-        var Childrens = {
+        var Child={
             template:`<div>
-                {{msg1}}
+            {{msg}}
 
-                {{babamsg}}
-
-                </div>`,
-            data(){
-                return{
-                    msg1:"我是子组件"
+            {{giveChild}}
+            </div>`,
+            data() {
+                return {
+                    msg:'我是子组件',
+                    msg2:"儿子给baba的"
                 }
             },
-            computed: {
-                babamsg(){
-                    return this.$parent.msg2
-                }
+            mounted(){
+                this.$emit("give-par",this.msg2,'2');
             },
+            props:["giveChild"]
         }
 
-
-        var Parents = {
+        var Parentt={
             template:`<div>
-                {{msg}}
+            {{msg}}
+            <h1 @give-par="havMsg">111</h1>
+            {{msgChi}}
+            <hr>
 
-                <childrens></childrens>
-
-                </div>`,
-            data(){
-                return{
-                    msg:"我是父亲组件",
-                    msg2:"爸爸给你的",
+            <child :giveChild="msg2"></child>
+            
+            </div>`,
+            data() {
+                return {
+                    msg:'我是父组件',
+                    msg2:"baba给儿子的",
+                    msgChi:"",
+                }
+            },
+            methods: {
+                havMsg(val1,val2){
+                    this.msgChi = val1+' '+val2
                 }
             },
             components:{
-                Childrens
+                Child
             }
         }
 
+
+
         new Vue({
             el:"#app",
-            data:{
-                msg:"我是祖宗"
-            },
             components:{
-                Parents
+                Parentt
             }
         })
     </script>
