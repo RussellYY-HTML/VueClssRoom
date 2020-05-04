@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link :to="{name:'login',query:{cmd:'5'}}">去登录</router-link>
+        <router-link :to="{name:'reg',params:{foot:'123'}}">去注册</router-link>
+        <router-link :to="{name:'buy',params:{pop1:'shangcheng'}}">商城</router-link>
+        <button @click="goUser">个人中心</button>
+        <router-view></router-view>
+    </div>
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+        const Login = {
+            template:`<div>
+            我是{{msg}}页面
+            <p>我的地址参数是 : {{queryString}}</p>
+            </div>`,
+            data() {
+                return {
+                    msg:"登录",
+                    queryString:'',
+                }
+            },
+            mounted(){
+                this.queryString = this.$route.query.cmd
+            }
+        }
+
+        const Reg = {
+            template:`<div>
+            我是{{msg}}页面
+            <p>我的地址参数是 : {{paramsString}}</p>
+            </div>`,
+            data() {
+                return {
+                    msg:"注册",
+                    paramsString:'',
+                }
+            },
+            created() {
+                this.paramsString = this.$route.params.foot
+            },
+        }
+
+        
+        const Buy = {
+            template:`<div>
+            我是商城页面
+            <p>我的地址参数是 : {{pop1}}</p>
+            </div>`,
+             props:["pop1"]
+        }
+
+                
+        const User = {
+            template:`<div>
+            我是个人中心页面
+            <p>我的地址参数是 :{{userString}}</p>
+            <button @click="gitUrls">获取地址</button>
+            </div>`,
+            data() {
+                return {
+                    userString:""
+                }
+            },
+            methods: {
+                gitUrls(){
+                    this.userString = this.$route.query.cmd1+this.$route.query.cmd2
+                }
+            },
+
+ 
+        }
+
+        Vue.use(VueRouter);
+        const router = new VueRouter({
+            routes:[
+                {path:"/login",name:"login",component:Login},
+                {path:"/reg/:foot",name:"reg",component:Reg},
+                {path:"/buy/:pop1",name:"buy",props:true,component:Buy},
+                {path:"/user",name:"user",component:User},
+            ]
+        })
+
+        new Vue({
+            el:"#app",
+            router,
+            methods: {
+                goUser(){
+                    this.$router.push(
+                        {name:"user",query:{cmd1:"url1",cmd2:"url2"}}
+                        )
+                }
+            },
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        var myTest = {
+            template:`<div>我是组件1</div>`,
+
+            beforeDestroy() {
+                console.log("beforeDestroy -> '组件销毁前'", '组件销毁前')
+            },
+            destroyed() {
+                console.log("111")
+                console.log("destoryed -> '组件销毁后'", '组件销毁后')
+            },
+            activated() {
+                console.log("activated -> '组件被激活'", '组件被激活')
+            },
+            deactivated() {
+                console.log("activated -> '组件被移除'", '组件被移除')
+            },
+
+        }
+
+        new Vue({
+            el:"#app",
+            template:`<div>
+               <keep-alive><my-test v-if='actives'></my-test></keep-alive>
+            <button @click="showMe">+1</button>
+
+            
+            </div>`,
+            data() {
+                return {
+                    msg:"我是组件数据",
+                    actives:true,
+                }
+            },
+            methods:{
+                showMe(){
+                    this.actives = !this.actives
+                }
+            },
+            components:{
+                myTest
+            },
+
+            // beforeCreate() {
+            //     //组件创建前
+            //     console.log('组件创建前,数据还未生成')
+            //     console.log(this.msg)
+            // },
+            // created() {
+            //     console.log("created -> '组件创建完成 数据已绑定，dom还未生成'", '组件创建完成 数据已绑定，dom还未生成')
+            //     console.log("created -> this.msg", this.msg)
+            //     console.log(this.$el)
+            // },
+
+            // beforeMount() {
+            //     console.log("beforeMount -> '模板挂在之前'", '模板挂在之前')
+            //     console.log("beforeMount -> document.body.innerHTML", document.body.innerHTML)
+            // },
+            // mounted() {
+            //     console.log("mounted -> '模板挂在之后'", '模板挂在之后')
+            //     console.log("beforeMount -> document.body.innerHTML", document.body.innerHTML)
+            // },
+
+            // beforeUpdate() {
+               
+            //     console.log("beforeUpdate -> 数据更新之前", '数据更新之前')
+            //     console.log(this.msg)
+                
+            // },
+            // updated() {
+
+            //     console.log("beforeUpdate -> '数据更新之后'", '数据更新之后')
+            //     console.log(this.msg)
+
+            // },
+
+            
+        })
+    </script>
+</body>
+</html>

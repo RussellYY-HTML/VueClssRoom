@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <router-link to='login'><a>登录</a></router-link>
+
+            <router-link to='reg'><a>注册</a></router-link>
+
+            <button @click="goToBye">去购物</button>
+
+            <button @click="goBack">返回</button>
+            
+            <router-view></router-view>
+            </div>
+    </div>
+    <script src="vue.js"></script>
+    <!-- 1、引入 -->
+    <script src="vue-router.js"></script>
+    <script>
+        const Login = {template: `<div>登录页面！</div>`}
+
+        const Reg = {template: `<div>注册页面！</div>` }
+
+        const Buy = {template: `<div>购物页面！</div>` }
+
+        // 2、安装路由
+        Vue.use(VueRouter);
+
+        // 3、创建路由对象
+        const router = new VueRouter({
+
+            // 4、配置路由规则
+            routes: [
+                {path: '/login',name: 'login',component: Login},
+                {
+                    path: '/reg',
+                    name: 'reg',
+                    component: Reg
+                },
+                {path: '/buy',name: 'buy',component: Buy},
+            ]
+        });
+
+        new Vue({
+            el: "#app",
+            // 5、配置好的路由对象交给Vue
+            router,
+            methods: {
+                goToBye(){
+                    // 跳转到指定路由---replace不会向history插入导航记录
+                    this.$router.replace({path:'/buy'})
+                    
+                    // 跳转到指定路由---push会向history插入导航记录--用于back返回
+                    this.$router.push({path:'/buy'})
+                },
+                goBack(){
+                    // 返回上一页
+                    this.$router.go(-1)
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>

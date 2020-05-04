@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+
+        <router-link :to="{name:'login',query:{names:'strings'}}">去登录</router-link>
+
+        <router-link :to="{name:'reg',params:{foo:'bar',foo2:'bb'}}">去注册</router-link>
+
+        <router-link :to="{name:'buy',params:{foo3:'bar'}}">去购物</router-link>
+
+        <router-view></router-view>
+    </div>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <script>
+        const Login = {
+            template: `<div>
+            登录页面！
+            <p>我的地址参数是：{{queryMsg}}</p>
+            </div>`,
+            data() {
+                return {
+                    queryMsg:""
+                }
+            },
+            created() {
+                this.queryMsg = this.$route.query.names
+            },
+        }
+       
+        var Reg = {
+            template: `<div>
+            注册页面
+            <p>我的路由参数是：{{queryMsg}}</p>
+            </div>`,
+            data() {
+                return {
+                    queryMsg:""
+                }
+            },
+            created() {
+                this.queryMsg = this.$route.params.foo2
+            },
+        }
+
+        var Buy = {
+            template:`<div>
+            我是购物页面
+            <p>我的路由参数是：{{foo3}}</p>
+            </div>`,
+            props:['foo3']
+        }
+
+        Vue.use(VueRouter);
+
+        var router = new VueRouter({
+            routes: [{
+                path: "/login",
+                name: "login",
+                component: Login,
+            }, {
+                path: "/reg/:foo/:foo2",
+                name: "reg",
+                component: Reg,
+            }, {
+                path: "/buy/:foo3",
+                name: "buy",
+                props:true,
+                component: Buy,
+            }]
+        });
+
+
+        new Vue({
+            el: "#app",
+            router,
+        })
+    </script>
+</body>
+
+</html>

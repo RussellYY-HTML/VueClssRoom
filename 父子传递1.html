@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <parents></parents>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        
+        const Childs = {
+            template:`<div>
+                {{msg}} <button @click="givits">gitit</button>
+                {{git}}
+                </div>`,
+            data() {
+                return {
+                    msg:"我是子组件",
+                    setMsg:"儿子给爸爸的",
+                    git:"准备接受"
+                }
+            },
+            mounted(){
+                this.$emit("give-far",this.setMsg)
+            },
+            props:['givit'],
+            methods: {
+                givits(){
+                    this.git = this.givit
+                }
+            },
+        }
+
+        const Parents = {
+            template:`<div>
+                {{msg}} <button @click="changeMsg">ggit</button> {{gitChildMsg}}
+                <childs :givit="setMsg" @give-far="havchild"></childs>
+                </div>`,
+            data() {
+                return {
+                    msg:"我是父组件",
+                    setMsg:"爸爸给儿子的",
+                    gitChildMsg:'准备接受',
+                    havMsg: ""
+                }
+            },
+            methods: {
+                havchild(val){
+                    console.log("havchild -> val", val)
+                    this.havMsg = val
+                },
+                changeMsg(){
+                    this.gitChildMsg = this.havMsg
+                }
+            },
+            components:{
+                Childs
+            }
+        }
+
+
+        new Vue({
+            el:"#app",
+            components:{
+                Parents
+            }
+        })
+    </script>
+</body>
+</html>
