@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <script>
+        const Nav = {
+            template:`
+            <div>
+                <router-link :to="{name:'home'}">首页</router-link>
+                <router-link :to="{name:'news'}">新闻</router-link>
+                <router-link :to="{name:'sports'}">体育</router-link>
+                <router-link :to="{name:'user'}">个人中心</router-link>
+                <router-link :to="{name:'mine'}">我的</router-link>
+                <router-view></router-view>
+            </div>
+            `,
+        }
+
+        const Home = {
+            template:`<div>我是首页</div>`
+        }
+
+        const News = {
+            template:`<div>我是新闻页</div>`
+        }
+        const Sports = {
+            template:`<div>我是体育页</div>`
+        }
+        const User = {
+            template:`<div>我是个人中心页</div>`
+        }
+        const Mine = {
+            template:`<div>我的</div>`
+        }
+
+        Vue.use(VueRouter);
+
+        const router = new VueRouter({
+            routes:[
+                {
+                    path:"/nav",
+                    name:"nav",
+                    component:Nav,
+                    // 配置嵌套路由
+                    children:[
+                        // 路由重定向--默认展示页面
+                        {path:"",redirect:"./home"},
+                        {path:"home",name:"home",component:Home},
+                        {path:"news",name:"news",component:News},
+                        {path:"sports",name:"sports",component:Sports},
+                        {path:"user",name:"user",component:User},
+                        {path:"mine",name:"mine",component:Mine},
+                    ]
+                }
+            ]
+        })
+
+        new Vue({
+            el:"#app",
+            router
+        })
+    </script>
+</body>
+</html>

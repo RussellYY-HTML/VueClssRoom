@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="" id="app">
+        <router-link :to="{path:'/login',query:{cmd:'1',oth:aa}}">登录</router-link>
+        <router-link :to="{name:'reg',params:{foot1:'123',foot2:'cco'}}">注册</router-link>
+        <router-link :to="{name:'buy',params:{buys:'gets'}}">购物</router-link>
+        <button @click="goUser">登录</button>
+        <router-view :key="$route.fullPath"></router-view>
+    </div>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <script>
+        const Login = {
+            template:`<div>
+            I am {{msg}}页面<br>
+            我是{{msg}}页面的参数：{{dataString}}
+            </div>`,
+            data() {
+                return {
+                    msg:"登录",
+                    dataString:"",
+                }
+            },
+            created(){
+                this.dataString=this.$route.query.cmd+" "+this.$route.query.oth
+            }
+   
+        }
+
+        const Reg = {
+            template:`<div>
+            I am {{msg}}页面<br>
+            我是{{msg}}页面的参数：{{dataString}}
+            </div>`,
+            data() {
+                return {
+                    msg:"注册",
+                    dataString:"",
+                }
+            },
+            mounted(){
+                this.dataString = this.$route.params.foot1+' '+this.$route.params.foot2
+            }
+        }
+
+        const Buy = {
+            template:`<div>
+            I am {{msg}}页面<br>
+            我是{{msg}}页面的参数：{{buys}}
+            </div>`,
+            data() {
+                return {
+                    msg:"购物",
+                    dataString:"",
+                }
+            },
+            props:["buys"]
+        }
+
+        const User = {
+            template:`<div>
+            I am {{msg}}页面<br>
+            我是{{msg}}页面的参数：{{dataString}}
+            <button @click='gitData'>gitData</button>
+            </div>`,
+            data() {
+                return {
+                    msg:"个人中心",
+                    dataString:"",
+                }
+            },
+            methods: {
+                gitData(){
+                    this.dataString = this.$route.params.url1
+                }
+            },
+        }
+
+
+        Vue.use(VueRouter);
+        const router = new VueRouter({
+            routes:[
+                {path:"/login",name:"login",component:Login},
+                {path:"/reg/:foot1/:foot2",name:"reg",component:Reg},
+                {path:"/buy/:buys",name:"buy",props:true,component:Buy},
+                {path:"/user/:url1",name:"user",component:User}
+            ]
+        })
+        new Vue({
+            el:"#app",
+            router,
+            data() {
+                return {
+                    aa:"kdj"
+                }
+            },
+            methods: {
+                goUser(){
+                    this.$router.push({name:"login",query:{cmd:'3',oth:'bb'}}).catch(data=>{})
+                },
+
+            },
+        })
+    </script>
+</body>
+</html>
